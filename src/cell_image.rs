@@ -4,7 +4,7 @@ use bevy::render::extract_resource::ExtractResource;
 use bevy::render::render_resource::{Extent3d, TextureDimension, TextureFormat, TextureUsages};
 
 #[derive(Resource, Clone, ExtractResource, Deref)]
-pub struct Cell_Image(pub Handle<Image>);
+pub struct CellImage(pub Handle<Image>);
 
 pub fn create_image(width: u32, height: u32) -> Image{
     let mut image = Image::new_fill(

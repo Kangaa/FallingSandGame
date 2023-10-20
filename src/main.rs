@@ -8,8 +8,10 @@ use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 use bevy::winit::WinitWindows;
 use bevy::DefaultPlugins;
+use bevy::render::extract_resource::ExtractResourcePlugin;
 
 use FallingSand::cell_image;
+use FallingSand::cell_image::CellImage;
 use FallingSand::GamePlugin;
 
 
@@ -32,6 +34,7 @@ fn main() {
         }))
         .add_plugins(GamePlugin)
         .add_systems(Startup, (set_window_icon,setup))
+        .add_plugins(ExtractResourcePlugin::<CellImage>::default())
         .run();
 }
 fn setup(mut commands: Commands, mut images: ResMut<Assets<Image>>){
@@ -48,7 +51,7 @@ fn setup(mut commands: Commands, mut images: ResMut<Assets<Image>>){
         texture: image.clone(),
         ..default()
     });
-    commands.insert_resource(cell_image::Cell_Image(image))
+    commands.insert_resource(cell_image::CellImage(image))
 }
 
 // Sets the icon on windows and X11

@@ -6,6 +6,9 @@ mod loading;
 mod menu;
 pub mod cell_image;
 
+pub mod pipeline;
+
+
 use crate::actions::ActionsPlugin;
 use crate::audio::InternalAudioPlugin;
 use crate::loading::LoadingPlugin;
@@ -13,10 +16,11 @@ use crate::menu::MenuPlugin;
 
 use bevy::app::App;
 #[cfg(debug_assertions)]
-use bevy::diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin};
-use bevy::diagnostic::{Diagnostics, DiagnosticsStore};
+use bevy::diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin, DiagnosticsStore};
 use bevy::prelude::*;
+use bevy::render::RenderApp;
 use bevy::window::PrimaryWindow;
+use crate::pipeline::CellPipeline;
 
 // This example game uses States to separate logic
 // See https://bevy-cheatbook.github.io/programming/states.html
@@ -49,6 +53,8 @@ impl Plugin for GamePlugin {
             app.add_plugins((FrameTimeDiagnosticsPlugin::default(), LogDiagnosticsPlugin::default()))
                 .add_systems(Update, display_fps);
         }
+        let render_app = app.sub_app_mut(RenderApp);
+        render_app.init_resource::<CellPipeline>();
     }
 }
 
