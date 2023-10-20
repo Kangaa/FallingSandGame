@@ -3,6 +3,19 @@
 version = 3
 
 [[package]]
+name = "FallingSand"
+version = "0.1.0"
+dependencies = [
+ "bevy",
+ "bevy_asset_loader",
+ "bevy_kira_audio",
+ "embed-resource",
+ "image",
+ "rand",
+ "winit",
+]
+
+[[package]]
 name = "ab_glyph"
 version = "0.2.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -507,19 +520,6 @@ checksum = "6bdf808dbdc68a0c519e09026c627bda85250205a40ac02794866bff254d6b56"
 dependencies = [
  "bevy_macro_utils",
  "encase_derive_impl",
-]
-
-[[package]]
-name = "bevy_game"
-version = "0.1.0"
-dependencies = [
- "bevy",
- "bevy_asset_loader",
- "bevy_kira_audio",
- "embed-resource",
- "image",
- "rand",
- "winit",
 ]
 
 [[package]]
@@ -2152,8 +2152,8 @@ dependencies = [
 name = "mobile"
 version = "0.1.0"
 dependencies = [
+ "FallingSand",
  "bevy",
- "bevy_game",
  "cpal",
 ]
 
