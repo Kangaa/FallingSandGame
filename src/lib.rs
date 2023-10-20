@@ -4,6 +4,7 @@ mod actions;
 mod audio;
 mod loading;
 mod menu;
+pub mod cell_image;
 
 use crate::actions::ActionsPlugin;
 use crate::audio::InternalAudioPlugin;

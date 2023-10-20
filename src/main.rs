@@ -1,18 +1,22 @@
 // disable console on windows for release builds
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use std::io::Cursor;
+use winit::window::Icon;
+
 use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 use bevy::winit::WinitWindows;
 use bevy::DefaultPlugins;
+
+use FallingSand::cell_image;
 use FallingSand::GamePlugin;
-use std::io::Cursor;
-use winit::window::Icon;
+
 
 fn main() {
     App::new()
         .insert_resource(Msaa::Off)
-        .insert_resource(ClearColor(Color::rgb(0.4, 0.4, 0.4)))
+        .insert_resource(ClearColor(Color::rgb(1.0, 1.0, 1.0)))
         .add_plugins(DefaultPlugins.set(WindowPlugin {
             primary_window: Some(Window {
                 title: "Falling Sand".to_string(),
@@ -27,8 +31,24 @@ fn main() {
             ..default()
         }))
         .add_plugins(GamePlugin)
-        .add_systems(Startup, set_window_icon)
+        .add_systems(Startup, (set_window_icon,setup))
         .run();
+}
+fn setup(mut commands: Commands, mut images: ResMut<Assets<Image>>){
+    let width: u32 = 800;
+    let height: u32 = 600;
+    let image = cell_image::create_image(width, height);
+    let image :Handle<Image> = images.add(image);
+    commands.spawn(SpriteBundle{
+        sprite: Sprite{
+            color: Default::default(),
+            custom_size: Some(Vec2::new(width as f32, height as f32)),
+            ..default()
+        },
+        texture: image.clone(),
+        ..default()
+    });
+    commands.insert_resource(cell_image::Cell_Image(image))
 }
 
 // Sets the icon on windows and X11
