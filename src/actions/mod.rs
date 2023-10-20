@@ -2,7 +2,6 @@ use bevy::math::Vec3Swizzles;
 use bevy::prelude::*;
 
 use crate::actions::game_control::{get_movement, GameControl};
-use crate::player::Player;
 use crate::GameState;
 
 mod game_control;
@@ -31,7 +30,6 @@ pub fn set_movement_actions(
     mut actions: ResMut<Actions>,
     keyboard_input: Res<Input<KeyCode>>,
     touch_input: Res<Touches>,
-    player: Query<&Transform, With<Player>>,
     camera: Query<(&Camera, &GlobalTransform), With<Camera2d>>,
 ) {
     let mut player_movement = Vec2::new(
@@ -45,7 +43,7 @@ pub fn set_movement_actions(
         let (camera, camera_transform) = camera.single();
         if let Some(touch_position) = camera.viewport_to_world_2d(camera_transform, touch_position)
         {
-            let diff = touch_position - player.single().translation.xy();
+            let diff = touch_position ;
             if diff.length() > FOLLOW_EPSILON {
                 player_movement = diff.normalize();
             }
