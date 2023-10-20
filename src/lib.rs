@@ -15,7 +15,9 @@ use crate::player::PlayerPlugin;
 use bevy::app::App;
 #[cfg(debug_assertions)]
 use bevy::diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin};
+use bevy::diagnostic::{Diagnostics, DiagnosticsStore};
 use bevy::prelude::*;
+use bevy::window::PrimaryWindow;
 
 // This example game uses States to separate logic
 // See https://bevy-cheatbook.github.io/programming/states.html
@@ -40,12 +42,24 @@ impl Plugin for GamePlugin {
             MenuPlugin,
             ActionsPlugin,
             InternalAudioPlugin,
-            PlayerPlugin,
+            PlayerPlugin
         ));
+
 
         #[cfg(debug_assertions)]
         {
-            app.add_plugins((FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin::default()));
+            app.add_plugins((FrameTimeDiagnosticsPlugin::default(), LogDiagnosticsPlugin::default()))
+                .add_systems(Update, display_fps);
+        }
+    }
+}
+
+fn display_fps( diagnostics: Res<DiagnosticsStore>, mut windows: Query<&mut Window, With<PrimaryWindow>>){
+    if let Ok(mut window) = windows.get_single_mut(){
+        if let Some(fps_raw) = diagnostics.get(FrameTimeDiagnosticsPlugin::FPS){
+            if let Some(fps_smoothed) = fps_raw.smoothed(){
+                window.title = format!("Falling Sand Game {fps_smoothed:.2} fps")
+            }
         }
     }
 }
