@@ -5,7 +5,7 @@ use bevy::prelude::*;
 use bevy::window::PrimaryWindow;
 use bevy::winit::WinitWindows;
 use bevy::DefaultPlugins;
-use FallingSand::GamePlugin; // ToDo: Replace FallingSand with your new crate name.
+use FallingSand::GamePlugin;
 use std::io::Cursor;
 use winit::window::Icon;
 

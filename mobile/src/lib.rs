@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use bevy::window::WindowMode;
-use FallingSand::GamePlugin; // ToDo: Replace FallingSand with your new crate name.
+use FallingSand::GamePlugin;
 
 #[bevy_main]
 fn main() {
