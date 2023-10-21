@@ -171,12 +171,23 @@ impl render_graph::Node for CellNode{
 
         pass.set_bind_group(0, texture_bind_group, &[]);
         match self.state{
-            CellState::Loading | CellState::Update => {}
+            CellState::Loading  => {}
             CellState::Init => {
                 let init_pipeline = pipeline_cache
                     .get_compute_pipeline(pipeline.init_pipeline)
                     .unwrap();
                 pass.set_pipeline(init_pipeline);
+                pass.dispatch_workgroups(
+                    SIMULATION_SIZE.0 / WORKGROUP_SIZE,
+                    SIMULATION_SIZE.1 / WORKGROUP_SIZE,
+                    1
+                )
+            }
+            CellState::Update => {
+                let update_pipeline = pipeline_cache
+                    .get_compute_pipeline(pipeline.update_pipeline)
+                    .unwrap();
+                pass.set_pipeline(update_pipeline);
                 pass.dispatch_workgroups(
                     SIMULATION_SIZE.0 / WORKGROUP_SIZE,
                     SIMULATION_SIZE.1 / WORKGROUP_SIZE,
